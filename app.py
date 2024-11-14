@@ -115,9 +115,9 @@ st.markdown(
     <style>
     .stApp {{
         background-image: url('https://raw.githubusercontent.com/Ayo-tech-ai/jamb/main/background.jpg');
-        background-size: contain;  /* Adjusts image size to fit within the screen */
+        background-size: cover;  /* Fills the screen but may crop */
         background-position: center;
-        background-repeat: no-repeat;  /* Prevents repeating if the image is small */
+        background-attachment: fixed;  /* Keeps the background fixed while scrolling */
     }}
     </style>
     """, unsafe_allow_html=True)
