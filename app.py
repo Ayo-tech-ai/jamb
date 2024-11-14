@@ -7,10 +7,10 @@ model = joblib.load('jamb.joblib')  # your trained model
 encoder = joblib.load('jamb_faculty_encoder.joblib')  # your label encoder
 
 # Streamlit App Title
-st.title('JAMB Classification Prediction')
+st.title('JAMB/UTME Faculty Match')
 
 # Description of the app
-st.write("This app predicts the faculty for a student based on their exam scores.")
+st.write("An AI-Powered app that predicts the Faculty of Jambites based on their UTME scores.")
 
 # Arrange subjects in columns of two each
 col1, col2 = st.columns(2)
