@@ -10,7 +10,7 @@ encoder = joblib.load('jamb_faculty_encoder.joblib')  # your label encoder
 st.title('JAMB/UTME Faculty Match')
 
 # Description of the app
-st.write("An AI-Powered app that predicts the Faculty of Jambites based on their UTME scores.")
+st.write("An AI-powered App that predicts Jambites Faculty based on their UTME scores.")
 
 # Arrange subjects in columns of two each
 col1, col2 = st.columns(2)
