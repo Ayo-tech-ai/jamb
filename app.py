@@ -21,6 +21,10 @@ with col2:
     Chemistry = st.number_input("Chemistry", min_value=0, step=1)
     Biology = st.number_input("Biology", min_value=0, step=1)
 
+# Separate field for Mathematics
+st.write("")  # Empty space for better layout
+Mathematics = st.number_input("Mathematics", min_value=0, step=1)
+
 # Arrange Total Score and Predict button centrally
 Total_Score = st.number_input("Total Score", min_value=0, step=1)
 
@@ -35,11 +39,12 @@ input_features = [
     Physics,
     Chemistry,
     Biology,
+    Mathematics,
     Total_Score
 ]
 
 # Count how many subjects have non-zero scores
-subject_scores = [Use_of_English, Physics, Chemistry, Biology]
+subject_scores = [Use_of_English, Physics, Chemistry, Biology, Mathematics]
 non_zero_subjects = sum(1 for score in subject_scores if score > 0)
 
 # CSS styling for the central alignment and bold, visible text of the predicted result
