@@ -36,12 +36,14 @@ non_zero_subjects = sum(1 for score in subject_scores if score > 0)
 
 # If the user clicks the predict button
 if st.button('Predict'):
-    # Check if fewer than 4 subjects have scores
+    # Check if exactly 4 subjects have scores
     if non_zero_subjects < 4:
-        st.write("You must provide scores for at least 4 subjects.")
+        st.write("You must provide scores for exactly 4 subjects. You have entered fewer than 4 subjects.")
+    elif non_zero_subjects > 4:
+        st.write("Please limit your input to exactly 4 subjects. You have entered more than 4 subjects.")
     else:
         # Check if the sum of the individual subject scores equals the Total_Score
-        calculated_total_score = sum(subject_scores[:-1])  # Exclude the last item (Total_Score)
+        calculated_total_score = sum(subject_scores)  # Sum of non-zero subjects only
         if calculated_total_score != Total_Score:
             st.write(f"The sum of your subject scores ({calculated_total_score}) does not match the Total Score ({Total_Score}). Please check and input the correct Total Score.")
         else:
