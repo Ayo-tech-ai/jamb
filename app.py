@@ -105,3 +105,18 @@ if predict_button:
         st.write("You must provide scores for at least 4 subjects.")
     else:
         st.write("Please limit the input to exactly 4 subjects.")
+
+
+# Your app's existing code here (input fields, predictions, etc.)
+
+# Set background image at the end
+st.markdown(
+    f"""
+    <style>
+    .stApp {{
+        background-image: url('https://raw.githubusercontent.com/Ayo-tech-ai/jamb/main/background.jpg');
+        background-size: cover;
+        background-position: center;
+    }}
+    </style>
+    """, unsafe_allow_html=True)
