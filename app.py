@@ -7,17 +7,46 @@ model = joblib.load('jamb.joblib')  # your trained model
 encoder = joblib.load('jamb_faculty_encoder.joblib')  # your label encoder
 
 # Streamlit App Title
-st.title('JAMB/UTME Faculty Match')
+st.markdown("""
+    <style>
+        .center-text {
+            text-align: center;
+        }
+        .result {
+            font-size: 27px;  /* Increase font size by 3 */
+            font-weight: bold;
+            color: #007bff;
+            border: 3px solid green; /* Green border */
+            padding: 10px;
+        }
+        .description {
+            font-size: 24px; /* Increase font size by 3 */
+            font-weight: bold;
+            color: #007bff;
+            border: 3px solid green; /* Green border */
+            padding: 10px;
+        }
+        .input-container {
+            font-size: 18px; /* Increase font size by 3 */
+            color: #007bff;
+            border: 3px solid green; /* Green border */
+            padding: 10px;
+        }
+    </style>
+""", unsafe_allow_html=True)
 
-# Description of the app
-st.write("An AI-Powered app that predicts the Faculty of Jambites based on their UTME scores.")
+# Streamlit App Title with Centered Text
+st.markdown('<div class="center-text">JAMB/UTME Faculty Match</div>', unsafe_allow_html=True)
+
+# Description of the app with Centralized Text
+st.markdown('<div class="center-text description">An AI-Powered app that predicts the Faculty of Jambites based on their UTME scores.</div>', unsafe_allow_html=True)
 
 # Arrange subjects in columns of two each
 col1, col2 = st.columns(2)
 with col1:
     Use_of_English = st.number_input("Use of English", min_value=0, step=1)
-    Physics = st.number_input("Physics", min_value=0, step=1)
 with col2:
+    Physics = st.number_input("Physics", min_value=0, step=1)
     Chemistry = st.number_input("Chemistry", min_value=0, step=1)
     Biology = st.number_input("Biology", min_value=0, step=1)
 
@@ -46,20 +75,6 @@ input_features = [
 # Count how many subjects have non-zero scores
 subject_scores = [Use_of_English, Physics, Chemistry, Biology, Mathematics]
 non_zero_subjects = sum(1 for score in subject_scores if score > 0)
-
-# CSS styling for the central alignment and bold, visible text of the predicted result
-st.markdown("""
-    <style>
-        .center-text {
-            text-align: center;
-        }
-        .result {
-            font-size: 24px;
-            font-weight: bold;
-            color: #007bff;
-        }
-    </style>
-""", unsafe_allow_html=True)
 
 # Display the result only when the Predict button is clicked
 if predict_button:
