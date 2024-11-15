@@ -6,15 +6,23 @@ import numpy as np
 model = joblib.load('jamb.joblib')  # your trained model
 encoder = joblib.load('jamb_faculty_encoder.joblib')  # your label encoder
 
-# Streamlit App Title with updated color
+# Streamlit App Title with updated styling (white border around each character)
 st.markdown(
-    "<h1 style='color: darkgreen;'>JAMB/UTME Faculty Match</h1>",
+    """
+    <h1 style='color: darkgreen; text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;'>
+    JAMB/UTME Faculty Match
+    </h1>
+    """,
     unsafe_allow_html=True
 )
 
-# Description of the app with updated color
+# Description of the app with updated styling (white border around each character)
 st.markdown(
-    "<p style='color: darkgreen;'>An AI-powered App that predicts Jambites Faculty based on their UTME scores.</p>",
+    """
+    <p style='color: darkgreen; text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;'>
+    An AI-powered App that predicts Jambites Faculty based on their UTME scores.
+    </p>
+    """,
     unsafe_allow_html=True
 )
 
