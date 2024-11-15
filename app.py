@@ -45,7 +45,7 @@ Total_Score = sum(subject_scores)
 
 # Display Total Score (auto-updated)
 st.markdown(
-    f"<p style='color: white;'>Total Score: <strong>{Total_Score}</strong></p>",
+    f"<p style='color: white; font-size: 22px; font-weight: bold;'>Total Score: <strong>{Total_Score}</strong></p>",
     unsafe_allow_html=True
 )
 
@@ -54,11 +54,38 @@ button_centered = st.columns([1, 1, 1])
 with button_centered[1]:
     predict_button = st.button('Predict')
 
-# CSS styling for updated text colors
+# CSS styling for updated text colors and sizes
 st.markdown("""
     <style>
-        /* Update text colors */
-        .stNumberInput, .stButton, .stMarkdown {
+        /* Update text colors for the subject labels (number inputs) */
+        .stNumberInput label {
+            color: white !important;
+            font-size: 18px !important;
+            font-weight: bold !important;
+        }
+        
+        /* Update text colors for the Predict button */
+        .stButton button {
+            color: white !important;
+            background-color: darkgreen; /* Optional: change the button background to match the theme */
+        }
+
+        /* Update markdown text (e.g., Total Score and result text) */
+        .stMarkdown {
+            color: white !important;
+        }
+
+        /* Increase the size of the predicted faculty text */
+        .predicted-faculty {
+            font-size: 30px !important;
+            font-weight: bold !important;
+            color: white !important;
+        }
+
+        /* Update the style of the Total Score text */
+        .total-score {
+            font-size: 22px !important;
+            font-weight: bold !important;
             color: white !important;
         }
     </style>
@@ -77,7 +104,7 @@ if predict_button:
         else:
             # Check if the total score is less than 150, and if so, predict "Not offered admission"
             if Total_Score < 150:
-                st.markdown("<p style='color: white;'><strong>Predicted Faculty: Not offered admission</strong></p>", unsafe_allow_html=True)
+                st.markdown("<p class='predicted-faculty'><strong>Predicted Faculty: Not offered admission</strong></p>", unsafe_allow_html=True)
             else:
                 # Convert the input features into a numpy array (reshape to match model input)
                 input_array = np.array(subject_scores + [Total_Score]).reshape(1, -1)
@@ -89,15 +116,15 @@ if predict_button:
                 prediction_label = encoder.inverse_transform(prediction)
 
                 # Display the result
-                st.markdown(f"<p style='color: white;'><strong>Predicted Faculty: {prediction_label[0]}</strong></p>", unsafe_allow_html=True)
+                st.markdown(f"<div class='predicted-faculty'>Predicted Faculty: {prediction_label[0]}</div>", unsafe_allow_html=True)
 
-                # Display additional faculty information based on the prediction
                 faculty_info = {
-                    "Agriculture": "Departments: Agronomy, Animal Science, Crop Science, Soil Science.",
-                    "Science": "Departments: Chemistry, Physics, Biology, Mathematics, Computer Science.",
-                    "Clinical Sciences": "Departments: Medicine, Surgery, Dentistry, Pediatrics."
-                    # Add more faculties as needed
-                }
+                        "Agriculture": "Departments: Agric. Extension, Agric. Economics, Animal Science, Crop Science, Soil Science.",
+                        "Faculty of Science": "Departments: Chemistry, Physics, Biology, Botany, Microbiology Mathematics, Computer Science.",
+                        "Clinical Sciences": "Departments: Medicine, Surgery, Dentistry, Nursing.",
+                        "Engineering": "Electrical Engineering, Chemical Engineering, Machanical Engineering, Agricultural Engineering, Computer Engineering.",
+                        # Add more faculties as needed
+                    }
 
                 # Check if the predicted faculty has additional information
                 if prediction_label[0] in faculty_info:
