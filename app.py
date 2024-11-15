@@ -119,7 +119,7 @@ if predict_button:
                 st.markdown(f"<div class='predicted-faculty'>Predicted Faculty: {prediction_label[0]}</div>", unsafe_allow_html=True)
 
                 faculty_info = {
-                        "Agriculture": "Departments: Agric. Extension, Agric. Economics, Animal Science, Crop Science, Soil Science.",
+                        "Agriculture": "Departments: Agric. Extension and Rural Development, Agric. Economics, Animal Science, Crop Science, Soil Science.",
                         "Faculty of Science": "Departments: Chemistry, Physics, Biology, Botany, Microbiology Mathematics, Computer Science.",
                         "Clinical Sciences": "Departments: Medicine, Surgery, Dentistry, Nursing.",
                         "Engineering": "Electrical Engineering, Chemical Engineering, Machanical Engineering, Agricultural Engineering, Computer Engineering.",
