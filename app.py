@@ -6,7 +6,7 @@ import numpy as np
 model = joblib.load('jamb.joblib')  # your trained model
 encoder = joblib.load('jamb_faculty_encoder.joblib')  # your label encoder
 
-# Streamlit App Title with updated styling (white border around each character)
+# Streamlit App Title with white border styling
 st.markdown(
     """
     <h1 style='color: darkgreen; text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;'>
@@ -16,7 +16,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Description of the app with updated styling (white border around each character)
+# Description with white border styling
 st.markdown(
     """
     <p style='color: darkgreen; text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;'>
@@ -26,72 +26,79 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Arrange subjects in columns of two each
-col1, col2 = st.columns(2)
-with col1:
-    Use_of_English = st.number_input("Use of English", min_value=0, step=1)
-    Physics = st.number_input("Physics", min_value=0, step=1)
-with col2:
-    Chemistry = st.number_input("Chemistry", min_value=0, step=1)
-    Biology = st.number_input("Biology", min_value=0, step=1)
-
-# Separate field for Mathematics
-st.write("")  # Empty space for better layout
-Mathematics = st.number_input("Mathematics", min_value=0, step=1)
-
-# Automatically calculate the Total Score
-subject_scores = [Use_of_English, Physics, Chemistry, Biology, Mathematics]
-Total_Score = sum(subject_scores)
-
-# Display Total Score (auto-updated)
+# CSS for green borders around the subject names and total score
 st.markdown(
-    f"<p style='color: white;'>Total Score: <strong>{Total_Score}</strong></p>",
+    """
+    <style>
+        .green-border {
+            border: 2px solid green;
+            border-radius: 5px;
+            padding: 5px;
+            margin: 5px 0;
+        }
+        .dark-green-border {
+            border: 2px solid darkgreen;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+    </style>
+    """,
     unsafe_allow_html=True
 )
 
-# Center-align the Predict button
+# Arrange subjects in columns of two each with green border styling
+col1, col2 = st.columns(2)
+with col1:
+    Use_of_English = st.number_input("Use of English", min_value=0, step=1, key="english")
+    st.markdown("<div class='green-border'>Use of English</div>", unsafe_allow_html=True)
+
+    Physics = st.number_input("Physics", min_value=0, step=1, key="physics")
+    st.markdown("<div class='green-border'>Physics</div>", unsafe_allow_html=True)
+
+with col2:
+    Chemistry = st.number_input("Chemistry", min_value=0, step=1, key="chemistry")
+    st.markdown("<div class='green-border'>Chemistry</div>", unsafe_allow_html=True)
+
+    Biology = st.number_input("Biology", min_value=0, step=1, key="biology")
+    st.markdown("<div class='green-border'>Biology</div>", unsafe_allow_html=True)
+
+# Separate field for Mathematics with green border styling
+Mathematics = st.number_input("Mathematics", min_value=0, step=1, key="mathematics")
+st.markdown("<div class='green-border'>Mathematics</div>", unsafe_allow_html=True)
+
+# Automatically calculate and display the Total Score with green border styling
+subject_scores = [Use_of_English, Physics, Chemistry, Biology, Mathematics]
+Total_Score = sum(subject_scores)
+st.markdown(f"<div class='green-border'>Total Score: <strong>{Total_Score}</strong></div>", unsafe_allow_html=True)
+
+# Predict button
 button_centered = st.columns([1, 1, 1])
 with button_centered[1]:
     predict_button = st.button('Predict')
 
-# CSS styling for updated text colors
-st.markdown("""
-    <style>
-        /* Update text colors */
-        .stNumberInput, .stButton, .stMarkdown {
-            color: white !important;
-        }
-    </style>
-""", unsafe_allow_html=True)
-
-# Display the result only when the Predict button is clicked
+# Display the result when the Predict button is clicked
 if predict_button:
     # Count how many subjects have non-zero scores
     non_zero_subjects = sum(1 for score in subject_scores if score > 0)
 
     # Check if exactly 4 subjects have scores
     if non_zero_subjects == 4:
-        # Ensure that Use of English is one of the selected subjects
         if Use_of_English == 0:
             st.write("Please include Use of English as it is compulsory when selecting 4 subjects.")
         else:
-            # Check if the total score is less than 150, and if so, predict "Not offered admission"
             if Total_Score < 150:
-                st.markdown("<p style='color: white;'><strong>Predicted Faculty: Not offered admission</strong></p>", unsafe_allow_html=True)
+                st.markdown("<div class='dark-green-border'>Predicted Faculty: Not offered admission</div>", unsafe_allow_html=True)
             else:
-                # Convert the input features into a numpy array (reshape to match model input)
                 input_array = np.array(subject_scores + [Total_Score]).reshape(1, -1)
-
-                # Use the model to make a prediction
                 prediction = model.predict(input_array)
-
-                # If an encoder is used, transform the predicted label back to the original class
                 prediction_label = encoder.inverse_transform(prediction)
 
-                # Display the result
-                st.markdown(f"<p style='color: white;'><strong>Predicted Faculty: {prediction_label[0]}</strong></p>", unsafe_allow_html=True)
+                # Display the prediction with dark green border
+                st.markdown(f"<div class='dark-green-border'>Predicted Faculty: {prediction_label[0]}</div>", unsafe_allow_html=True)
 
-                # Display additional faculty information based on the prediction
+                # Additional faculty information
                 faculty_info = {
                     "Agriculture": "Departments: Agronomy, Animal Science, Crop Science, Soil Science.",
                     "Science": "Departments: Chemistry, Physics, Biology, Mathematics, Computer Science.",
@@ -99,23 +106,22 @@ if predict_button:
                     # Add more faculties as needed
                 }
 
-                # Check if the predicted faculty has additional information
                 if prediction_label[0] in faculty_info:
-                    st.markdown(f"<p style='color: white;'>{faculty_info[prediction_label[0]]}</p>", unsafe_allow_html=True)
+                    st.markdown(f"<div class='dark-green-border'>{faculty_info[prediction_label[0]]}</div>", unsafe_allow_html=True)
     elif non_zero_subjects < 4:
         st.write("You must provide scores for at least 4 subjects.")
     else:
         st.write("Please limit the input to exactly 4 subjects.")
 
-# Set background image at the end
+# Set background image
 st.markdown(
     f"""
     <style>
     .stApp {{
         background-image: url('https://raw.githubusercontent.com/Ayo-tech-ai/jamb/main/background.jpg');
-        background-size: cover;  /* Fills the screen but may crop */
+        background-size: cover;
         background-position: center;
-        background-attachment: fixed;  /* Keeps the background fixed while scrolling */
+        background-attachment: fixed;
     }}
     </style>
     """, unsafe_allow_html=True)
